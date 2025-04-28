@@ -21,8 +21,9 @@ const generateReport = async (req, res, reportType) => {
         pdfBuffer = await generateBalanceSheetReport(reportDate, {
           id: "65bfa2046599c7824d8543a7",
         });
+        console.log("pdfBuffer in reportController.js ", pdfBuffer);
         if (pdfBuffer.status === "Error") {
-          throw new Error(pdfBuffer);
+          throw new Error(pdfBuffer.message);
         }
 
         break;
