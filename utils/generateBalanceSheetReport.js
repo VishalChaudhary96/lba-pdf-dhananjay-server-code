@@ -34,6 +34,6 @@ module.exports = async function generateBalanceSheetReport(reportDates, user) {
     return pdfBuffer; // Return the retrieved documents
   } catch (error) {
     console.error("Error during find operation:", error); // Log the error for debugging
-    throw new Error("Database operation failed"); // Throw a custom error
+    throw new Error(error); // Throw a custom error
   }
 };
