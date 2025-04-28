@@ -33,7 +33,7 @@ module.exports = async function generateBalanceSheetReport(reportDates, user) {
 
     return pdfBuffer; // Return the retrieved documents
   } catch (error) {
-    console.error("Error during find operation:", error.message); // Log the error for debugging
+    console.error("Error during find operation:", error); // Log the error for debugging
     throw new Error(error.message); // Throw a custom error
   }
 };
