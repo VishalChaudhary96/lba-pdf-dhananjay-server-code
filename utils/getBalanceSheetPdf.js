@@ -72,7 +72,6 @@ async function getBalanceSheetPdf({
 
     // Generate PDF using Puppeteer
     const browser = await puppeteer.launch({
-      executablePath: "/opt/render/.cache/puppeteer/chrome-linux/chrome", // Ensure this path matches Render's environment
       headless: true, // Run in headless mode
       args: ["--no-sandbox", "--disable-setuid-sandbox"], // Required flags for non-root environments
     });
