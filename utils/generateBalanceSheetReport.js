@@ -7,20 +7,16 @@ const {
 
 module.exports = async function generateBalanceSheetReport(reportDates, user) {
   try {
-    console.log("reportDates", reportDates);
     const documents = await BalanceSheets.findOne({ user: user.id }); // Perform the find operation
     const { filteredItems, reverseTotalCredit, reverseTotalDebit } =
       filterReport(documents.items, reportDates.from, reportDates.to); // filter the report as per given date range
 
-    console.log("reverseTotalCredit", reverseTotalCredit);
-    console.log("reverseTotalDebit", reverseTotalDebit);
     const openingBalance = calculateOpeningBalanceOfFromDate(
       reverseTotalCredit,
       reverseTotalDebit,
       documents.totalCreditedAmount,
       documents.totalDebitedAmount
     );
-    console.log("openingBalance", openingBalance);
 
     const pdfBuffer = await getBalanceSheetPdf({
       items: filteredItems,

@@ -82,10 +82,6 @@ async function getBalanceSheetPdf({
     return pdfBuffer;
   } catch (error) {
     console.log("error", error);
-    return {
-      status: "Error",
-      message: error.message,
-    };
   }
 }
 
