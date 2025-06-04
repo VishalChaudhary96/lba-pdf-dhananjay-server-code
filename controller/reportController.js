@@ -1,12 +1,12 @@
 const {
   generateBalanceSheetReport,
   generateExpenseReport,
-  generateIncomeReport,
   generateNetProfitNLossReport,
-  generateTripsReport,
 } = require("../utils");
+const { getISTDateTime } = require("../utils/formatDate");
 
 const generateReport = async (req, res, reportType) => {
+  let fileName;
   let pdfBuffer;
   try {
     const reportDate = req.body;
@@ -20,31 +20,35 @@ const generateReport = async (req, res, reportType) => {
         pdfBuffer = await generateBalanceSheetReport(reportDate, {
           id: "65bfa2046599c7824d8543a7",
         });
-        break;
-      case "trips":
-        await generateNetProfitNLossReport(reportDate);
+        fileName = "BankStatement.pdf";
         break;
       case "net-profit-n-loss":
-        await generateIncomeReport(reportDate);
+        pdfBuffer = await generateNetProfitNLossReport(reportDate);
+        fileName = "ProfitNLossStatement.pdf";
         break;
       case "income":
         await generateExpenseReport(reportDate);
-        break;
-      case "expense":
-        await generateTripsReport(reportDate);
         break;
     }
 
     // Send PDF as response
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      'attachment; filename="BankStatement.pdf"'
+    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+
+    console.log(
+      `${getISTDateTime()} POST : Sending Response Back of Generate Balance Sheet, File : reportController.js, payload : `,
+      req.body
     );
-    res.send(pdfBuffer);
+    return res.status(200).send(pdfBuffer);
 
     // res.status(201).json({ message: "Report generated successfully" });
   } catch (error) {
+    console.error(
+      `${getISTDateTime()} POST : Generate Balance Sheet, File : reportController.js, Error : ${
+        error.message
+      }, payload : `,
+      req.body
+    );
     res.status(500).json({ message: "Error generating report", error });
   }
 };

@@ -1,5 +1,6 @@
 const { BalanceSheets } = require("../models");
 const { filterReport } = require("../utils/filterReport");
+const { getISTDateTime } = require("../utils/formatDate");
 const { getBalanceSheetPdf } = require("./getBalanceSheetPdf");
 const {
   calculateOpeningBalanceOfFromDate,
@@ -29,6 +30,12 @@ module.exports = async function generateBalanceSheetReport(reportDates, user) {
 
     return pdfBuffer; // Return the retrieved documents
   } catch (error) {
+    console.error(
+      `${getISTDateTime()} POST : Generate Balance Sheet, File : generateBalanceSheetReport.js, Error : ${
+        error.message
+      }, Payload : `,
+      reportDates
+    );
     console.error("Error during find operation:", error); // Log the error for debugging
     throw new Error(error.message); // Throw a custom error
   }

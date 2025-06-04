@@ -1,2 +1,3 @@
 const BalanceSheets = require("./BalanceSheetSchema");
-module.exports = { BalanceSheets };
+const Trips = require("./TripSchema");
+module.exports = { BalanceSheets, Trips };
